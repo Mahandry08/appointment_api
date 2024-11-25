@@ -12,7 +12,6 @@ export class AppointmentService {
   //fonction pour créer un rendez-vous
   async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
     await this.checkForOverlappingAppointments(createAppointmentDto.userId, createAppointmentDto.startTime, createAppointmentDto.endTime);
-    
     const appointment = new this.appointmentModel(createAppointmentDto);
     return appointment.save();
   }
@@ -35,7 +34,7 @@ export class AppointmentService {
   async update(id: string, updateAppointmentDto: UpdateAppointmentDto): Promise<Appointment> {
     const existingAppointment = await this.appointmentModel.findById(id).exec();
     if (!existingAppointment) {
-      console.log("Ce rendez-vous est introuvable");
+        console.log("Ce rendez-vous est introuvable");
     }
 
     if (updateAppointmentDto.startTime || updateAppointmentDto.endTime) {

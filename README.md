@@ -1,8 +1,8 @@
 # appointment_api
 
-run npm install
+npm install
 nest start || npm run start
 
-#Routes:
+#routes:
 http://localhost:3000
 http://localhost:3000/appointments
