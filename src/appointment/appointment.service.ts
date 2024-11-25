@@ -9,6 +9,7 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 export class AppointmentService {
   constructor(@InjectModel(Appointment.name) private appointmentModel: Model<AppointmentDocument>) {}
 
+  //fonction pour créer un rendez-vous
   async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
     await this.checkForOverlappingAppointments(createAppointmentDto.userId, createAppointmentDto.startTime, createAppointmentDto.endTime);
     
@@ -16,10 +17,12 @@ export class AppointmentService {
     return appointment.save();
   }
 
+  //fonction pour trouvez tous les rendez-vous
   async findAll(): Promise<Appointment[]> {
     return this.appointmentModel.find().exec();
   }
 
+  //fonction pour rechercher un rendez-vous
   async findOne(id: string): Promise<Appointment> {
     const appointment = await this.appointmentModel.findById(id).exec();
     if (!appointment) {
@@ -28,6 +31,7 @@ export class AppointmentService {
     return appointment;
   }
 
+  //fonction pour mettre à jour les rendez-vous
   async update(id: string, updateAppointmentDto: UpdateAppointmentDto): Promise<Appointment> {
     const existingAppointment = await this.appointmentModel.findById(id).exec();
     if (!existingAppointment) {
@@ -44,6 +48,7 @@ export class AppointmentService {
     return updatedAppointment;
   }
 
+  //fonction pour supprimer un rendez-vous
   async remove(id: string): Promise<void> {
     const result = await this.appointmentModel.findByIdAndDelete(id).exec();
     if (!result) {
@@ -51,6 +56,7 @@ export class AppointmentService {
     }
   }
 
+  //fonction pour vérifier les rendez-vous qui se chevauchent
   private async checkForOverlappingAppointments(userId: string, startTime: Date, endTime: Date): Promise<void> {
     const overlappingAppointments = await this.appointmentModel.find({
       userId,
